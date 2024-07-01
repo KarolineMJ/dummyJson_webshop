@@ -4,10 +4,21 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 
 import { getURL } from '@/app/utils'
-import { Grid, InputBase, Paper, Stack, TablePagination } from '@mui/material'
+import {
+  Grid,
+  IconButton,
+  InputBase,
+  MenuItem,
+  Paper,
+  Select,
+  Stack,
+  TablePagination,
+  Typography,
+} from '@mui/material'
 import { ProductDetailsDialog } from '@/app/productDetailsDialog'
 import Product from '@/app/product'
 import SearchIcon from '@mui/icons-material/Search'
+import SwapVertIcon from '@mui/icons-material/SwapVert'
 
 export type ProductType = {
   id: number
@@ -34,6 +45,8 @@ export default function ProductList() {
   const [currentPage, setCurrentPage] = useState(0)
   const [productsPerPage, setProductsPerPage] = useState(10)
   const [searchTerm, setSearchTerm] = useState('')
+  const [sortBy, setSortBy] = useState<string>('title')
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
 
   const closeProductDetailsDialog = () => {
     setProductDetailsOpen(false)
@@ -62,33 +75,64 @@ export default function ProductList() {
   useEffect(() => {
     const getAllProductList = async () => {
       const response = await axios.get(
-        getURL({ currentPage, productsPerPage, searchTerm }),
+        getURL({ currentPage, productsPerPage, searchTerm, sortBy, sortOrder }),
       )
       setProductList(response.data.products)
       setProductsCount(response.data.total)
     }
 
     getAllProductList()
-  }, [currentPage, productsPerPage, searchTerm])
+  }, [currentPage, productsPerPage, searchTerm, sortBy, sortOrder])
 
   return (
     <Stack padding={2}>
-      <Paper
-        component="form"
-        sx={{
-          p: '4px 12px',
-          display: 'flex',
-          alignItems: 'center',
-          width: 400,
-        }}
-      >
-        <SearchIcon />
-        <InputBase
-          onChange={(e) => onSearchInputChange(e.target.value)}
-          sx={{ ml: 1, flex: 1 }}
-          placeholder="Search..."
-        />
-      </Paper>
+      <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Paper
+          component="form"
+          sx={{
+            p: '4px 12px',
+            display: 'flex',
+            alignItems: 'center',
+            width: 400,
+          }}
+        >
+          <SearchIcon />
+          <InputBase
+            onChange={(e) => onSearchInputChange(e.target.value)}
+            sx={{ ml: 1, flex: 1 }}
+            placeholder="Search..."
+          />
+        </Paper>
+        <Stack gap={2} alignItems="center" direction="row">
+          <Typography>
+            <b>Sort by:</b>
+          </Typography>
+          <Select
+            id="sortBy"
+            value={sortBy}
+            onChange={(event) => {
+              setCurrentPage(0)
+              setSortBy(event.target.value)
+            }}
+            sx={{ backgroundColor: 'white', padding: '0 10px' }}
+          >
+            <MenuItem value={'title'}>Title</MenuItem>
+            <MenuItem value={'price'}>Price</MenuItem>
+            <MenuItem value={'brand'}>Brand</MenuItem>
+          </Select>
+          <Stack direction="row" alignItems="center">
+            <IconButton
+              aria-label="add to shopping cart"
+              onClick={() =>
+                setSortOrder(sortOrder === 'desc' ? 'asc' : 'desc')
+              }
+            >
+              <SwapVertIcon />
+            </IconButton>
+          </Stack>
+        </Stack>
+      </Stack>
+
       <Grid container spacing={2} paddingY={2}>
         {productList.length > 0 &&
           productList.map((product: ProductType, index) => {
