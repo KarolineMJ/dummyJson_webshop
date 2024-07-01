@@ -1,6 +1,5 @@
 import { ProductType } from '@/app/components/products/productList'
 import axios from 'axios'
-import PropTypes from 'prop-types'
 import { createContext, useState, useEffect } from 'react'
 
 export type CartContextType = {
@@ -142,8 +141,4 @@ export const CartProvider = ({ children }: { children: any }) => {
       {children}
     </CartContext.Provider>
   )
-}
-
-CartProvider.propTypes = {
-  children: PropTypes.node.isRequired,
 }
