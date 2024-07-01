@@ -4,9 +4,10 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 
 import { getURL } from '@/app/utils'
-import { Grid, Stack, TablePagination } from '@mui/material'
+import { Grid, InputBase, Paper, Stack, TablePagination } from '@mui/material'
 import { ProductDetailsDialog } from '@/app/productDetailsDialog'
 import Product from '@/app/product'
+import SearchIcon from '@mui/icons-material/Search'
 
 export type ProductType = {
   id: number
@@ -32,6 +33,7 @@ export default function ProductList() {
   const [productsCount, setProductsCount] = useState(0)
   const [currentPage, setCurrentPage] = useState(0)
   const [productsPerPage, setProductsPerPage] = useState(10)
+  const [searchTerm, setSearchTerm] = useState('')
 
   const closeProductDetailsDialog = () => {
     setProductDetailsOpen(false)
@@ -52,19 +54,42 @@ export default function ProductList() {
     setCurrentPage(0)
   }
 
+  const onSearchInputChange = (searchString: string) => {
+    setSearchTerm(searchString)
+    setCurrentPage(0)
+  }
+
   useEffect(() => {
     const getAllProductList = async () => {
-      const response = await axios.get(getURL({ currentPage, productsPerPage }))
+      const response = await axios.get(
+        getURL({ currentPage, productsPerPage, searchTerm }),
+      )
       setProductList(response.data.products)
       setProductsCount(response.data.total)
     }
 
     getAllProductList()
-  }, [currentPage, productsPerPage])
+  }, [currentPage, productsPerPage, searchTerm])
 
   return (
-    <Stack>
-      <Grid container spacing={2} padding={2}>
+    <Stack padding={2}>
+      <Paper
+        component="form"
+        sx={{
+          p: '4px 12px',
+          display: 'flex',
+          alignItems: 'center',
+          width: 400,
+        }}
+      >
+        <SearchIcon />
+        <InputBase
+          onChange={(e) => onSearchInputChange(e.target.value)}
+          sx={{ ml: 1, flex: 1 }}
+          placeholder="Search..."
+        />
+      </Paper>
+      <Grid container spacing={2} paddingY={2}>
         {productList.length > 0 &&
           productList.map((product: ProductType, index) => {
             return (
