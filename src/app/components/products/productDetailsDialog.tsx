@@ -1,4 +1,4 @@
-import { ProductType } from '@/app/productList'
+import { ProductType } from '@/app/components/products/productList'
 import {
   CardMedia,
   Dialog,

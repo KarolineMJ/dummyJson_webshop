@@ -12,7 +12,7 @@ import {
 } from '@mui/material'
 import CheckIcon from '@mui/icons-material/Check'
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket'
-import { ProductType } from '@/app/productList'
+import { ProductType } from '@/app/components/products/productList'
 import { Dispatch, SetStateAction } from 'react'
 
 export default function ProductList({

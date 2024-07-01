@@ -3,7 +3,7 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 
-import { getURL } from '@/app/utils'
+import { getURL } from '@/app/components/products/productsUtils'
 import {
   Grid,
   IconButton,
@@ -15,8 +15,8 @@ import {
   TablePagination,
   Typography,
 } from '@mui/material'
-import { ProductDetailsDialog } from '@/app/productDetailsDialog'
-import Product from '@/app/product'
+import { ProductDetailsDialog } from '@/app/components/products/productDetailsDialog'
+import Product from '@/app/components/products/product'
 import SearchIcon from '@mui/icons-material/Search'
 import SwapVertIcon from '@mui/icons-material/SwapVert'
 
@@ -114,6 +114,7 @@ export default function ProductList() {
               setCurrentPage(0)
               setSortBy(event.target.value)
             }}
+            size="small"
             sx={{ backgroundColor: 'white', padding: '0 10px' }}
           >
             <MenuItem value={'title'}>Title</MenuItem>
