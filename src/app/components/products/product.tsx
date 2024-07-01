@@ -13,7 +13,8 @@ import {
 import CheckIcon from '@mui/icons-material/Check'
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket'
 import { ProductType } from '@/app/components/products/productList'
-import { Dispatch, SetStateAction } from 'react'
+import { Dispatch, SetStateAction, useContext } from 'react'
+import { CartContext } from '@/app/context/cart'
 
 export default function ProductList({
   product,
@@ -24,6 +25,7 @@ export default function ProductList({
   setOpen: Dispatch<SetStateAction<boolean>>
   setSelectedProduct: Dispatch<SetStateAction<ProductType | null>>
 }) {
+  const { addToCart } = useContext(CartContext)
   const outOfStock = product.stock === 0
 
   const openProductDetailsDialog = (product: ProductType) => {
@@ -100,7 +102,7 @@ export default function ProductList({
             aria-label="add to shopping cart"
             onClick={(e) => {
               e.stopPropagation()
-              console.log('wuhuuu added to cart')
+              addToCart(product)
             }}
           >
             <ShoppingBasketIcon />
