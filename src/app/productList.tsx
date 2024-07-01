@@ -4,19 +4,9 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 
 import { getURL } from '@/app/utils'
-import {
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Grid,
-  IconButton,
-  Stack,
-  Typography,
-} from '@mui/material'
-import CheckIcon from '@mui/icons-material/Check'
-import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket'
+import { Grid, Stack, TablePagination } from '@mui/material'
 import { ProductDetailsDialog } from '@/app/productDetailsDialog'
+import Product from '@/app/product'
 
 export type ProductType = {
   id: number
@@ -38,119 +28,79 @@ export default function ProductList() {
   const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(
     null,
   )
-  const [open, setOpen] = useState(false)
+  const [productDetailsOpen, setProductDetailsOpen] = useState(false)
+  const [productsCount, setProductsCount] = useState(0)
+  const [currentPage, setCurrentPage] = useState(0)
+  const [productsPerPage, setProductsPerPage] = useState(10)
 
-  const openProductDetailsDialog = (product: ProductType) => {
-    setOpen(true)
-    setSelectedProduct(product)
-  }
   const closeProductDetailsDialog = () => {
-    setOpen(false)
+    setProductDetailsOpen(false)
     setSelectedProduct(null)
+  }
+
+  const changePage = (
+    _: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number,
+  ) => {
+    setCurrentPage(newPage)
+  }
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setProductsPerPage(parseInt(event.target.value, 10))
+    setCurrentPage(0)
   }
 
   useEffect(() => {
     const getAllProductList = async () => {
-      const response = await axios.get(getURL())
+      const response = await axios.get(getURL({ currentPage, productsPerPage }))
       setProductList(response.data.products)
+      setProductsCount(response.data.total)
     }
+
     getAllProductList()
-  }, [])
+  }, [currentPage, productsPerPage])
 
   return (
-    <Grid container spacing={2} padding={2}>
-      {productList.length > 0 &&
-        productList.map((product: ProductType, index) => {
-          const outOfStock = product.stock === 0
-
-          return (
-            <Grid item key={index} xs={8} sm={6} md={4} xl={2}>
-              <Card
-                sx={{ cursor: 'pointer' }}
-                onClick={() => {
-                  openProductDetailsDialog(product)
-                }}
-              >
-                <Stack sx={{ position: 'relative' }}>
-                  <CardMedia
-                    image={product.thumbnail}
-                    sx={{
-                      height: 200,
-                      filter: outOfStock ? 'grayscale(0.9)' : 'grayscale(0)',
-                      opacity: outOfStock ? 0.3 : 1,
-                    }}
-                  />
-                  {outOfStock && (
-                    <Typography
-                      sx={{
-                        position: 'absolute',
-                        zIndex: 2,
-                        fontWeight: 'bold',
-                        top: 0,
-                        bottom: 0,
-                        alignSelf: 'center',
-                      }}
-                    >
-                      Out of stock
-                    </Typography>
-                  )}
-                </Stack>
-                <CardContent>
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      margin: '10px 0',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                    }}
-                  >
-                    {product.title}
-                  </Typography>
-                  <Stack direction="row" alignItems="center" gap={0.5}>
-                    <CheckIcon
-                      sx={{
-                        color: product.stock < 5 ? '#c1a036 ' : '#7ac136 ',
-                      }}
-                    />
-                    <Typography variant="caption">
-                      {product.stock} pc
-                    </Typography>
-                  </Stack>
-                </CardContent>
-                <CardActions
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <Typography style={{ fontWeight: 'bold' }}>
-                    $ {product.price}
-                  </Typography>
-
-                  <IconButton
-                    disabled={outOfStock}
-                    color="primary"
-                    aria-label="add to shopping cart"
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      console.log('wuhuuu added to cart')
-                    }}
-                  >
-                    <ShoppingBasketIcon />
-                  </IconButton>
-                </CardActions>
-              </Card>
-            </Grid>
-          )
-        })}
-      {selectedProduct && (
-        <ProductDetailsDialog
-          selectedProduct={selectedProduct}
-          open={open}
-          onClose={closeProductDetailsDialog}
-        />
-      )}
-    </Grid>
+    <Stack>
+      <Grid container spacing={2} padding={2}>
+        {productList.length > 0 &&
+          productList.map((product: ProductType, index) => {
+            return (
+              <Product
+                key={index}
+                product={product}
+                setOpen={setProductDetailsOpen}
+                setSelectedProduct={setSelectedProduct}
+              />
+            )
+          })}
+        {selectedProduct && (
+          <ProductDetailsDialog
+            selectedProduct={selectedProduct}
+            open={productDetailsOpen}
+            onClose={closeProductDetailsDialog}
+          />
+        )}
+      </Grid>
+      <Stack justifyContent="center" alignItems="center" marginY={4}>
+        {productsCount > 0 && (
+          <table>
+            <tbody>
+              <tr>
+                <TablePagination
+                  count={productsCount}
+                  page={currentPage}
+                  onPageChange={changePage}
+                  rowsPerPage={productsPerPage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+              </tr>
+            </tbody>
+          </table>
+        )}
+      </Stack>
+    </Stack>
   )
 }
