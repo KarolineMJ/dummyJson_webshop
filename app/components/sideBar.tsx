@@ -1,4 +1,4 @@
-import { Filters } from '@/app/components/filters'
+import { Filters } from './filters'
 import TuneIcon from '@mui/icons-material/Tune'
 
 import { Stack, Typography } from '@mui/material'

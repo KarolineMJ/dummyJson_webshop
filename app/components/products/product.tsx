@@ -12,9 +12,9 @@ import {
 } from '@mui/material'
 import CheckIcon from '@mui/icons-material/Check'
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket'
-import { ProductType } from '@/app/components/products/productList'
+import { ProductType } from './productList'
 import { Dispatch, SetStateAction, useContext } from 'react'
-import { CartContext } from '@/app/context/cart'
+import { CartContext } from '../../context/cart'
 
 export default function ProductList({
   product,

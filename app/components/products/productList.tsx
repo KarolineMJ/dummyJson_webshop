@@ -3,7 +3,7 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 
-import { getURL } from '@/app/components/products/productsUtils'
+import { getURL } from './productsUtils'
 import {
   Grid,
   IconButton,
@@ -16,11 +16,11 @@ import {
   TablePagination,
   Typography,
 } from '@mui/material'
-import { ProductDetailsDialog } from '@/app/components/products/productDetailsDialog'
-import Product from '@/app/components/products/product'
+import { ProductDetailsDialog } from './productDetailsDialog'
+import Product from './product'
 import SearchIcon from '@mui/icons-material/Search'
 import SwapVertIcon from '@mui/icons-material/SwapVert'
-import { SideBar } from '@/app/components/sideBar'
+import { SideBar } from '../sideBar'
 
 export type ProductType = {
   id: number

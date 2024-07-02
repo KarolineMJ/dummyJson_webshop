@@ -1,4 +1,4 @@
-import Cart from '@/app/components/cart/cart'
+import Cart from './cart/cart'
 import { Stack, Typography } from '@mui/material'
 
 export default function NavBar() {

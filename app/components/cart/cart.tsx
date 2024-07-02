@@ -1,8 +1,8 @@
 import { IconButton, Typography, Popover, Stack } from '@mui/material'
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket'
 import { useState, useContext, useEffect } from 'react'
-import { CartContext, CartContextType } from '@/app/context/cart'
-import { CartProduct } from '@/app/components/cart/cartProduct'
+import { CartContext, CartContextType } from '../../context/cart'
+import { CartProduct } from './cartProduct'
 
 export default function Cart() {
   const [totalProducts, setTotalProducts] = useState(0)

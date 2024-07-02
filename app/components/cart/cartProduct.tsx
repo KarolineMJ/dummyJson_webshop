@@ -2,10 +2,10 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import { IconButton, Typography, TextField, Stack, Button } from '@mui/material'
 import Image from 'next/image'
 import { useContext } from 'react'
-import { CartContext, CartContextType } from '@/app/context/cart'
+import { CartContext, CartContextType } from '../../context/cart'
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
-import { ProductType } from '@/app/components/products/productList'
+import { ProductType } from '../products/productList'
 
 export function CartProduct({ product }: { product: ProductType }) {
   const { addToCart, removeFromCart } = useContext<CartContextType>(CartContext)

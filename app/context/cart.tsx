@@ -1,4 +1,4 @@
-import { ProductType } from '@/app/components/products/productList'
+import { ProductType } from '../components/products/productList'
 import axios from 'axios'
 import { createContext, useState, useEffect } from 'react'
 
