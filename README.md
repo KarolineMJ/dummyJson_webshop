@@ -12,7 +12,13 @@ Make sure you have the following installed on your machine:
 
 ## Getting Started
 
-First, run the development server:
+Make sure to install all the dependencies:
+
+```bash
+npm install
+```
+
+To run the development server:
 
 ```bash
 npm run dev
