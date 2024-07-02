@@ -44,7 +44,7 @@ export default function ProductList() {
   )
   const [productDetailsOpen, setProductDetailsOpen] = useState(false)
   const [productsCount, setProductsCount] = useState(0)
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(0)
   const [productsPerPage, setProductsPerPage] = useState(10)
   const [searchTerm, setSearchTerm] = useState('')
@@ -102,6 +102,7 @@ export default function ProductList() {
       <SideBar setCategory={setCategory} category={category} />
       <Stack padding={2}>
         <Stack
+          minWidth="100%"
           direction="row"
           justifyContent="space-between"
           alignItems="center"
@@ -160,7 +161,7 @@ export default function ProductList() {
         </Stack>
         {isLoading ? (
           <Grid container spacing={2} paddingY={2}>
-            {Array(productsPerPage)
+            {Array(12)
               .fill(1)
               .map((_, index) => (
                 <Grid key={index} item xs={16} sm={6} md={4} xl={2}>
@@ -190,25 +191,25 @@ export default function ProductList() {
                 />
               )}
             </Grid>
-            <Stack justifyContent="center" alignItems="center" marginY={4}>
-              {productsCount > 0 && (
-                <table>
-                  <tbody>
-                    <tr>
-                      <TablePagination
-                        count={productsCount}
-                        page={currentPage}
-                        onPageChange={changePage}
-                        rowsPerPage={productsPerPage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
-                      />
-                    </tr>
-                  </tbody>
-                </table>
-              )}
-            </Stack>
           </>
         )}
+        <Stack justifyContent="center" alignItems="center" marginY={4}>
+          {productsCount > 0 && (
+            <table>
+              <tbody>
+                <tr>
+                  <TablePagination
+                    count={productsCount}
+                    page={currentPage}
+                    onPageChange={changePage}
+                    rowsPerPage={productsPerPage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                  />
+                </tr>
+              </tbody>
+            </table>
+          )}
+        </Stack>
       </Stack>
     </Stack>
   )
