@@ -98,7 +98,7 @@ export default function ProductList() {
   }, [currentPage, productsPerPage, searchTerm, sortBy, sortOrder, category])
 
   return (
-    <Stack direction="row">
+    <Stack direction="row" sx={{ paddingTop: '80px' }}>
       <SideBar setCategory={setCategory} category={category} />
       <Stack padding={2}>
         <Stack

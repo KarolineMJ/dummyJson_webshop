@@ -38,6 +38,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 **My features:**
 
-7. The user can increase the quantity of an item directly from the cart
-8. The user can change the amount of products shown per page
-9. The user can always rearrange the data in ascending or descending order
+7. The user can increase or decrease the quantity of an item added to the cart directly from the cart
+8. The user can adjust the amount of items shown per page
+9. The user can change the sorting of items between ascending or descending
+10. The user is shown a snackbar when they add an item to the cart to confirm that it has been added to the cart

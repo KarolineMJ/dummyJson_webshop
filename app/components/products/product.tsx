@@ -7,13 +7,14 @@ import {
   CardMedia,
   Grid,
   IconButton,
+  Snackbar,
   Stack,
   Typography,
 } from '@mui/material'
 import CheckIcon from '@mui/icons-material/Check'
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket'
 import { ProductType } from './productList'
-import { Dispatch, SetStateAction, useContext } from 'react'
+import { Dispatch, SetStateAction, useContext, useState } from 'react'
 import { CartContext } from '../../context/cart'
 
 export default function ProductList({
@@ -25,6 +26,8 @@ export default function ProductList({
   setOpen: Dispatch<SetStateAction<boolean>>
   setSelectedProduct: Dispatch<SetStateAction<ProductType | null>>
 }) {
+  const [snackBarOpen, setSnackBarOpen] = useState(false)
+
   const { addToCart } = useContext(CartContext)
   const outOfStock = product.stock === 0
 
@@ -103,12 +106,21 @@ export default function ProductList({
             onClick={(e) => {
               e.stopPropagation()
               addToCart(product)
+              setSnackBarOpen(true)
             }}
           >
             <ShoppingBasketIcon />
           </IconButton>
         </CardActions>
       </Card>
+
+      <Snackbar
+        autoHideDuration={3000}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        open={snackBarOpen}
+        onClose={() => setSnackBarOpen(false)}
+        message="Item succesfully added to cart"
+      />
     </Grid>
   )
 }
