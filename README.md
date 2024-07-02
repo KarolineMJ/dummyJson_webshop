@@ -8,7 +8,7 @@ I chose to build the webshop with `react` and `nextjs` - have fun exploring!
 Make sure you have the following installed on your machine:
 
 - `Node.js` _min version 20_
-- `npm´ or another package manager
+- `npm` or another package manager
 
 ## Getting Started
 
